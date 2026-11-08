@@ -1,0 +1,17 @@
+{
+  "kit": { "theme": "cyan", "accent": "ff5ee0d0" },
+  "pages": [
+    { "name": "VERB",
+      "controls": [
+        { "param": "Type", "widget": "knob", "overlay": "menu" },
+        { "param": "Decay", "widget": "knob" },
+        { "param": "Liveliness", "widget": "knob" },
+        { "param": "Level", "widget": "knob" },
+        { "param": "Swirl", "widget": "knob" },
+        { "param": "Swirl Rate", "widget": "knob" },
+        { "param": "Warmth", "widget": "knob" },
+        { "param": "Air", "widget": "knob" },
+        { "param": "Tails", "widget": "switch" }
+      ] }
+  ]
+}

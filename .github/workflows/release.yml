@@ -1,0 +1,33 @@
+# Builds, packages and drafts a release using the Open MPC catalog's reusable workflow.
+# Run it from the Actions tab ("Run workflow"). Start with dry_run on: it only attaches the zips and skin
+# previews to the run. With dry_run off it creates a DRAFT release; install the zip on a device
+# (docs/RELEASING.md), then publish the draft, which creates the tag.
+name: Release (draft)
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version X.Y.Z (Z fixes, Y new parameters or pages, X only if parameter positions change)
+        required: true
+        default: "1.0.0"
+      dry_run:
+        description: Zip and previews as run artifacts only, no draft release
+        type: boolean
+        default: true
+
+jobs:
+  release:
+    uses: open-mpc/mpc-vst-plugins/.github/workflows/vst-release.yml@5432c834e4b9967900b4f2fbb89b0169b27fe350
+    permissions:
+      contents: write
+    with:
+      tag: v${{ inputs.version }}
+      version: ${{ inputs.version }}
+      tools_ref: 5432c834e4b9967900b4f2fbb89b0169b27fe350
+      vst_dir: release
+      build: release/build.sh
+      about: Stereo reverb with ten types (Room to Abyss and a cascading-octave Cascade shimmer), plus Swirl, Warmth and Air controls.
+      plugin_id: tidal-verb
+      license: MIT
+      dry_run: ${{ inputs.dry_run }}

@@ -1,0 +1,16 @@
+{
+  "name": "Tidal Verb",
+  "manufacturer": "Fullban",
+  "version": "1.0.0",
+  "kind": "effect",
+  "uid": "FEwF",
+  "numInputs": 2,
+  "numOutputs": 2,
+  "category": "Effect",
+  "file32": "VST/tidal-verb-arm32.so",
+  "file64": "VST/tidal-verb-arm64.so",
+  "description": "Stereo reverb with ten types (Room to Abyss and a cascading-octave Cascade shimmer), plus Swirl, Warmth and Air controls.",
+  "author": "Fullban",
+  "url": "https://github.com/fullbann/tidal-verb",
+  "license": "MIT"
+}

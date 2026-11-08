@@ -1,0 +1,17 @@
+{
+  "pages": [
+    {
+      "name": "MAIN",
+      "controls": [
+        "Waveform",
+        "Attack",
+        "Decay",
+        "Sustain",
+        "Release",
+        "Cutoff",
+        "Volume"
+      ]
+    }
+  ],
+  "style": { "background": "ff1e1d1e", "accent": "ffd31145", "text": "ffffffff", "muted": "ff6a6a6c" }
+}

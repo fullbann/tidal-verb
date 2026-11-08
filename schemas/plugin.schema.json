@@ -1,0 +1,71 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://github.com/pgoodliffe/plugin-vibecode-sdk/schemas/plugin.schema.json",
+    "title": "MPC plugin manifest (plugin.json)",
+    "description": "Describes one plugin for the Akai MPC standalone host. This file is copied verbatim into the deployable '<manufacturer> - VST - <name>' folder. The MPC matches it against the strings the binary reports, so name, manufacturer and uid must equal PluginInfo.name, PluginInfo.vendor and PluginInfo.uniqueId in the C++ source.",
+    "type": "object",
+    "required": ["name", "manufacturer", "version", "kind", "uid", "numInputs", "numOutputs", "file32", "file64"],
+    "properties": {
+        "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Plugin name shown on the MPC. Must equal PluginInfo.name (effGetEffectName). Used in the output folder name '<manufacturer> - VST - <name>'."
+        },
+        "manufacturer": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Vendor name. Must equal PluginInfo.vendor (effGetVendorString). Used in the output folder name."
+        },
+        "version": {
+            "type": "string",
+            "pattern": "^[0-9]+(\\.[0-9]+){0,3}$",
+            "description": "Plugin version such as \"1.0.0\". build.py pads it to four components in version.xml (1.0.0.0) and uses it in the zip name.",
+            "examples": ["1.0.0"]
+        },
+        "kind": {
+            "type": "string",
+            "enum": ["instrument", "effect"],
+            "description": "\"instrument\" (receives MIDI, usually 0 audio inputs) or \"effect\" (audio in/out, never receives MIDI). Must agree with PluginInfo.isInstrument."
+        },
+        "uid": {
+            "description": "Unique four-character code, e.g. \"AcWb\". Must equal PluginInfo.uniqueId = MPC_FOURCC('A','c','W','b') (first character is the most significant byte). An integer or \"0x\" hex string is also accepted.",
+            "oneOf": [
+                {"type": "string", "minLength": 4, "maxLength": 4, "pattern": "^[ -~]{4}$"},
+                {"type": "string", "pattern": "^0[xX][0-9a-fA-F]{1,8}$"},
+                {"type": "integer", "minimum": 0, "maximum": 4294967295}
+            ]
+        },
+        "numInputs": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Audio input channels (effects: usually 2; instruments: usually 0). Must equal PluginInfo.numInputs."
+        },
+        "numOutputs": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Audio output channels. Must be > 0 or the MPC will not list the plugin. Multi-output instruments (e.g. 8) are routable as stereo pairs. Must equal PluginInfo.numOutputs."
+        },
+        "category": {
+            "type": "string",
+            "description": "Optional category label such as \"Synth\" or \"Effect\".",
+            "examples": ["Synth", "Effect", "Drums", "Bass"]
+        },
+        "file32": {
+            "type": "string",
+            "pattern": "^(?!/)(?!.*\\.\\.)(.+)\\.so$",
+            "description": "Path, relative to the plugin folder, of the 32-bit ARM (armhf) shared object: \"VST/<slug>-arm32.so\".",
+            "examples": ["VST/wobble-bass-arm32.so"]
+        },
+        "file64": {
+            "type": "string",
+            "pattern": "^(?!/)(?!.*\\.\\.)(.+)\\.so$",
+            "description": "Path, relative to the plugin folder, of the 64-bit ARM (AArch64) shared object: \"VST/<slug>-arm64.so\".",
+            "examples": ["VST/wobble-bass-arm64.so"]
+        },
+        "description": {"type": "string", "description": "Optional one-line description used for packaging and the README; ignored by the MPC."},
+        "author": {"type": "string", "description": "Optional author name for packaging; ignored by the MPC."},
+        "url": {"type": "string", "description": "Optional project URL for packaging; ignored by the MPC."},
+        "license": {"type": "string", "description": "Optional license identifier for packaging; ignored by the MPC."}
+    },
+    "additionalProperties": true
+}

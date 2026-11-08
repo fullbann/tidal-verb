@@ -1,0 +1,132 @@
+{
+  "kitVersion": 1,
+  "theme": "mpc-red",
+  "colours": {
+    "bg": "ff1e1d1e",
+    "body": "ff2a2a2d",
+    "bodyLight": "ff3c3c40",
+    "bodyDark": "ff171718",
+    "track": "ff434347",
+    "outline": "ff0e0e0f",
+    "pointer": "fff2f2f2",
+    "thumb": "ffb9b9bd",
+    "thumbLight": "ffe6e6e8",
+    "thumbDark": "ff8a8a8e",
+    "ledOff": "ff4f2432",
+    "textOn": "ffffffff",
+    "accent": "ffd31145",
+    "accentDark": "ff8e1032",
+    "accentGlow": "46d31145"
+  },
+  "assets": {
+    "knob_uni": {
+      "file": "knob_uni.png",
+      "width": 90,
+      "height": 90,
+      "frames": 127
+    },
+    "knob_bi": {
+      "file": "knob_bi.png",
+      "width": 90,
+      "height": 90,
+      "frames": 127
+    },
+    "knob_small_uni": {
+      "file": "knob_small_uni.png",
+      "width": 56,
+      "height": 56,
+      "frames": 127
+    },
+    "knob_small_bi": {
+      "file": "knob_small_bi.png",
+      "width": 56,
+      "height": 56,
+      "frames": 127
+    },
+    "fader_h_uni": {
+      "file": "fader_h_uni.png",
+      "width": 248,
+      "height": 36,
+      "frames": 127
+    },
+    "fader_h_bi": {
+      "file": "fader_h_bi.png",
+      "width": 248,
+      "height": 36,
+      "frames": 127
+    },
+    "fader_v_uni": {
+      "file": "fader_v_uni.png",
+      "width": 36,
+      "height": 160,
+      "frames": 127
+    },
+    "fader_v_bi": {
+      "file": "fader_v_bi.png",
+      "width": 36,
+      "height": 160,
+      "frames": 127
+    },
+    "toggle_on": {
+      "file": "toggle_on.png",
+      "width": 64,
+      "height": 32,
+      "frames": 1
+    },
+    "toggle_off": {
+      "file": "toggle_off.png",
+      "width": 64,
+      "height": 32,
+      "frames": 1
+    },
+    "button_on": {
+      "file": "button_on.png",
+      "width": 120,
+      "height": 44,
+      "frames": 1
+    },
+    "button_off": {
+      "file": "button_off.png",
+      "width": 120,
+      "height": 44,
+      "frames": 1
+    },
+    "seg2_on": {
+      "file": "seg2_on.png",
+      "width": 122,
+      "height": 40,
+      "frames": 1
+    },
+    "seg2_off": {
+      "file": "seg2_off.png",
+      "width": 122,
+      "height": 40,
+      "frames": 1
+    },
+    "seg3_on": {
+      "file": "seg3_on.png",
+      "width": 80,
+      "height": 40,
+      "frames": 1
+    },
+    "seg3_off": {
+      "file": "seg3_off.png",
+      "width": 80,
+      "height": 40,
+      "frames": 1
+    },
+    "seg4_on": {
+      "file": "seg4_on.png",
+      "width": 58,
+      "height": 40,
+      "frames": 1
+    },
+    "seg4_off": {
+      "file": "seg4_off.png",
+      "width": 58,
+      "height": 40,
+      "frames": 1
+    }
+  },
+  "notes": "Film strips are vertical, frame 0 = minimum at the top. Draw each asset at its native size: the MPC does not scale film-strip frames or button images."
+}

@@ -1,0 +1,5 @@
+build/
+dist/
+.sdk-tools/
+__pycache__/
+release/build/

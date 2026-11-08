@@ -1,0 +1,282 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://github.com/pgoodliffe/plugin-vibecode-sdk/schemas/ui.schema.json",
+    "title": "MPC plugin UI layout (ui.json)",
+    "description": "Optional layout spec consumed by tools/gen_ui.py to generate the MPC 'Plugin Skins' (TUI.json + Q-Links.json). Each page is one tab on the MPC screen with a 4 x 4 grid of controls laid out in reading order (the MPC itself does not require a grid, but the hardware knobs work in groups of four and the focus rectangle wraps each group, so treat each row or column of four as one related block); each control is bound to one plugin parameter (by the name the plugin reports) and to the Q-Link knob under its column. Without ui.json, gen_ui.py lays out all parameters automatically, 16 per page.",
+    "type": "object",
+    "required": [
+        "pages"
+    ],
+    "properties": {
+        "pages": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 32,
+            "description": "Tabs, in order. The first page is shown when the plugin opens.",
+            "items": {
+                "$ref": "#/definitions/page"
+            }
+        },
+        "style": {
+            "type": "object",
+            "description": "Colours as 8-digit ARGB hex strings (alpha first). All optional.",
+            "properties": {
+                "background": {
+                    "$ref": "#/definitions/argb",
+                    "description": "Tab background colour. Default ff1e1d1e (near black)."
+                },
+                "accent": {
+                    "$ref": "#/definitions/argb",
+                    "description": "Focus outline colour. Default ffd31145 (MPC red); follows the kit accent when a kit is used and this is not set."
+                },
+                "text": {
+                    "$ref": "#/definitions/argb",
+                    "description": "Value text / heading colour. Default ffffffff."
+                },
+                "muted": {
+                    "$ref": "#/definitions/argb",
+                    "description": "Parameter name colour. Default ff6a6a6c."
+                }
+            },
+            "additionalProperties": false
+        },
+        "kit": {
+            "description": "Film-strip kit for \"knob\", \"fader\" and \"switch\" widgets (see ui-kit/README.md): a theme name, or an object with a theme and/or an accent colour. Assumed \"mpc-red\" when any kit widget is used without it.",
+            "oneOf": [
+                {
+                    "type": "string",
+                    "enum": [
+                        "mpc-red",
+                        "amber",
+                        "cyan",
+                        "lime",
+                        "violet",
+                        "mono"
+                    ]
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "theme": {
+                            "type": "string",
+                            "enum": [
+                                "mpc-red",
+                                "amber",
+                                "cyan",
+                                "lime",
+                                "violet",
+                                "mono"
+                            ],
+                            "default": "mpc-red"
+                        },
+                        "accent": {
+                            "$ref": "#/definitions/argb",
+                            "description": "Accent colour for arcs, fills and lit buttons (ARGB). Also used for the focus ring unless style.accent is set."
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "knobImage": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Optional PNG film strip (vertical strip of frames) in the project's assets/ folder (build.py copies assets/ into Plugin Skins/), used by every \"knob\" widget instead of the kit knob. tools/make_knob.py can generate a plain one.",
+            "examples": [
+                "knob.png"
+            ]
+        },
+        "knobFrames": {
+            "type": "integer",
+            "minimum": 2,
+            "default": 127,
+            "description": "Number of frames in knobImage."
+        }
+    },
+    "additionalProperties": false,
+    "definitions": {
+        "argb": {
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{8}$",
+            "examples": [
+                "ff1e1d1e"
+            ]
+        },
+        "page": {
+            "type": "object",
+            "required": [
+                "controls"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Tab label shown over the function key. Keep it to 8 characters or fewer. Defaults to the page number."
+                },
+                "controls": {
+                    "type": "array",
+                    "maxItems": 16,
+                    "description": "Up to 16 controls filling a 4 x 4 grid in reading order (row by row). Slot (row r, column c) is driven by hardware Q-Link 13 + c - 4r.",
+                    "items": {
+                        "$ref": "#/definitions/control"
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "control": {
+            "description": "Either a parameter name (string) for a default slider, or an object.",
+            "oneOf": [
+                {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "A parameter name as reported by the plugin (see build/params.json), shown as a generic slider; or the word \"empty\" for a blank slot."
+                },
+                {
+                    "$ref": "#/definitions/controlObject"
+                }
+            ]
+        },
+        "controlObject": {
+            "type": "object",
+            "properties": {
+                "param": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Parameter name exactly as the plugin reports it (case-insensitive fallback). Required for \"slider\" and \"knob\" widgets."
+                },
+                "widget": {
+                    "type": "string",
+                    "enum": [
+                        "slider",
+                        "knob",
+                        "fader",
+                        "switch",
+                        "empty",
+                        "text"
+                    ],
+                    "default": "slider",
+                    "description": "\"knob\": film-strip knob with name and value (kit). \"fader\": horizontal film-strip fader under a name/value header (kit). \"switch\": toggle for a bool parameter or 2-4 captioned segment buttons for a choice parameter (kit). \"slider\": the MPC's generic name + value bar (works for every parameter kind). \"empty\": leave the slot blank. \"text\": a static heading (needs \"text\")."
+                },
+                "polarity": {
+                    "type": "string",
+                    "enum": [
+                        "auto",
+                        "unipolar",
+                        "bipolar"
+                    ],
+                    "default": "auto",
+                    "description": "For \"knob\" and \"fader\": draw the value from the minimum (unipolar) or from the centre (bipolar). \"auto\" picks bipolar when the parameter's default is the centre of its range and its value text reads as zero."
+                },
+                "text": {
+                    "type": "string",
+                    "description": "Heading text for \"widget\": \"text\"."
+                },
+                "overlay": {
+                    "type": "string",
+                    "enum": [
+                        "knob",
+                        "menu"
+                    ],
+                    "default": "knob",
+                    "description": "Overlay opened by double-click / Enter: a large knob editor, or a menu list (the default for \"switch\"; use it for long choice lists)."
+                },
+                "visibleWhen": {
+                    "type": "object",
+                    "description": "Show this control only while a choice/bool parameter has a given value (IndexedEnabling).",
+                    "required": [
+                        "param"
+                    ],
+                    "properties": {
+                        "param": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "Name of the choice or bool parameter to test."
+                        },
+                        "choice": {
+                            "type": "string",
+                            "description": "The choice label that makes this control visible (e.g. \"Dual\"; for bool parameters \"Off\"/\"On\")."
+                        },
+                        "index": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "description": "Alternative to \"choice\": the 0-based choice index."
+                        }
+                    },
+                    "oneOf": [
+                        {
+                            "required": [
+                                "choice"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "index"
+                            ]
+                        }
+                    ],
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false,
+            "allOf": [
+                {
+                    "if": {
+                        "properties": {
+                            "widget": {
+                                "const": "text"
+                            }
+                        },
+                        "required": [
+                            "widget"
+                        ]
+                    },
+                    "then": {
+                        "required": [
+                            "text"
+                        ]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "widget": {
+                                "enum": [
+                                    "slider",
+                                    "knob",
+                                    "fader",
+                                    "switch"
+                                ]
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "param"
+                        ]
+                    }
+                },
+                {
+                    "if": {
+                        "required": [
+                            "polarity"
+                        ]
+                    },
+                    "then": {
+                        "properties": {
+                            "widget": {
+                                "enum": [
+                                    "knob",
+                                    "fader"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "widget"
+                        ]
+                    }
+                }
+            ]
+        }
+    }
+}
