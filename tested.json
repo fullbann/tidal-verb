@@ -1,5 +1,7 @@
 [
-  { "version": "1.0.0", "device": "Akai Force (Gen1)", "firmware": "3.10", "date": "2026-11-07" },
-  { "version": "1.0.0", "device": "MPC Live (Gen1)", "firmware": "3.10", "date": "2026-11-07" },
-  { "version": "1.0.0", "device": "MPC XL (Gen2)", "firmware": "3.10", "date": "2026-11-07" }
+  {"version": "1.0.0", "device": "Akai Force (Gen1)", "firmware": "3.10", "date": "2026-11-07"},
+  {"version": "1.0.0", "device": "MPC Live (Gen1)", "firmware": "3.10", "date": "2026-11-07"},
+  {"version": "1.0.0", "device": "MPC XL (Gen2)", "firmware": "3.10", "date": "2026-11-07"},
+  {"version": "1.6.0", "device": "Akai Force (Gen1)", "firmware": "3.10.1", "date": "2026-11-14"},
+  {"version": "1.6.0", "device": "MPC XL (Gen2)", "firmware": "3.10.1", "date": "2026-11-14"}
 ]
