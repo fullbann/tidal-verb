@@ -166,7 +166,7 @@ public:
         info.name         = "Tidal Verb";
         info.vendor       = "Fullban";
         info.uniqueId     = MPC_FOURCC(kUid[0], kUid[1], kUid[2], kUid[3]);
-        info.version      = 1000;
+        info.version      = 1060;
         info.isInstrument = false;
         info.numInputs    = 2;
         info.numOutputs   = 2;
